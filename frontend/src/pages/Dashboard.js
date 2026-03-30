@@ -11,8 +11,6 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem('user'));
 
-  useEffect(() => { fetchTasks(); }, [fetchTasks]);
-
   const fetchTasks = useCallback(async () => {
     try {
       const res = await api.get('/tasks');
@@ -22,6 +20,8 @@ export default function Dashboard() {
       navigate('/login');
     }
   }, [navigate]);
+
+  useEffect(() => { fetchTasks(); }, [fetchTasks]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -67,7 +67,6 @@ export default function Dashboard() {
 
   return (
     <div className="dashboard-page">
-      {/* Header */}
       <div className="dashboard-header">
         <div className="header-left">
           <h2>⚡Taskora⚡</h2>
@@ -82,7 +81,6 @@ export default function Dashboard() {
       </div>
 
       <div className="dashboard-content">
-        {/* Stats */}
         <div className="stats-row">
           <div className="stat-card">
             <span className="stat-icon">📋</span>
@@ -107,10 +105,8 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Message */}
         {message && <div className="message-banner">{message}</div>}
 
-        {/* Form */}
         <div className="card">
           <h3 className="card-title">
             {editId ? '✏️ Edit Task' : '➕ Add New Task'}
@@ -155,7 +151,6 @@ export default function Dashboard() {
           </form>
         </div>
 
-        {/* Task List */}
         <div className="card">
           <h3 className="card-title">📌 Your Tasks ({tasks.length})</h3>
           {tasks.length === 0 ? (
