@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import api from '../services/api';
 import { useNavigate } from 'react-router-dom';
 import '../styles/Dashboard.css';
@@ -11,9 +11,9 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem('user'));
 
-  useEffect(() => { fetchTasks(); }, []);
+  useEffect(() => { fetchTasks(); }, [fetchTasks]);
 
-  const fetchTasks = async () => {
+  const fetchTasks = useCallback(async () => {
     try {
       const res = await api.get('/tasks');
       setTasks(res.data.tasks);
@@ -21,7 +21,7 @@ export default function Dashboard() {
       localStorage.clear();
       navigate('/login');
     }
-  };
+  }, [navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
