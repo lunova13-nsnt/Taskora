@@ -1,0 +1,33 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f0f2f5;
+  color: #333;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: #4f46e5;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  transition: all 0.2s ease;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: #4f46e5 !important;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
