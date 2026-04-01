@@ -16,4 +16,8 @@ exports.taskSchema = Joi.object({
   title: Joi.string().min(1).max(100).required(),
   description: Joi.string().max(500).optional().allow(''),
   status: Joi.string().valid('pending', 'in-progress', 'done').optional(),
+  priority: Joi.string().valid('low', 'medium', 'high').optional(),
+  dueDate: Joi.date().optional().allow(null, ''),
+  tag: Joi.string().max(30).optional().allow(''),
+  notes: Joi.string().max(1000).optional().allow(''),
 });
