@@ -33,16 +33,57 @@ const calculateStreak = (loginDates) => {
   return streak;
 };
 
-exports.register = async (req, res) => {
-  const { error } = registerSchema.validate(req.body);
-  if (error) return res.status(400).json({ success: false, message: error.details[0].message });
-
-  const { name, email, password, role } = req.body;
+exports.sendRegisterOtp = async (req, res) => {
+  const { email } = req.body;
+  if (!email) return res.status(400).json({ success: false, message: 'Email is required.' });
 
   try {
     const existingUser = await User.findOne({ email });
     if (existingUser)
       return res.status(400).json({ success: false, message: 'Email already registered.' });
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const otpExpiry = new Date(Date.now() + 10 * 60 * 1000);
+
+    await transporter.sendMail({
+      from: `"Taskora ⚡" <${process.env.EMAIL_USER}>`,
+      to: email,
+      subject: '✅ Verify your Taskora account',
+      html: `
+        <div style="font-family:sans-serif;max-width:480px;margin:0 auto;background:#0d1117;color:#e2e8f0;border-radius:16px;padding:32px;border:1px solid rgba(16,185,129,0.2)">
+          <h1 style="background:linear-gradient(135deg,#10b981,#3b82f6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:28px;margin:0 0 8px">⚡ Taskora</h1>
+          <p style="color:#64748b;margin:0 0 24px">Email Verification</p>
+          <p style="color:#94a3b8;margin:0 0 16px">Welcome! Your verification code is:</p>
+          <div style="background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.25);border-radius:12px;padding:24px;text-align:center;margin:0 0 24px">
+            <span style="font-size:40px;font-weight:800;letter-spacing:12px;color:#10b981">${otp}</span>
+          </div>
+          <p style="color:#64748b;font-size:13px">Expires in <strong style="color:#ffa500">10 minutes</strong>.</p>
+        </div>
+      `
+    });
+
+    res.status(200).json({ success: true, message: 'OTP sent!', otp, otpExpiry });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: 'Failed to send OTP. Check email config.' });
+  }
+};
+
+exports.register = async (req, res) => {
+  const { error } = registerSchema.validate(req.body);
+  if (error) return res.status(400).json({ success: false, message: error.details[0].message });
+
+  const { name, email, password, role, otp, otpExpiry } = req.body;
+
+  try {
+    const existingUser = await User.findOne({ email });
+    if (existingUser)
+      return res.status(400).json({ success: false, message: 'Email already registered.' });
+
+    if (otp && otpExpiry) {
+      if (new Date() > new Date(otpExpiry))
+        return res.status(400).json({ success: false, message: 'OTP expired. Please request a new one.' });
+    }
 
     const hashedPassword = await bcrypt.hash(password, 12);
     const today = new Date().toISOString().split('T')[0];
