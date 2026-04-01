@@ -602,3 +602,97 @@
   gap: 8px;
   animation: slideDown 0.3s ease;
 }
+
+/* ===== RESPONSIVE MOBILE ===== */
+@media (max-width: 768px) {
+  .dashboard-header {
+    padding: 0.8rem 1rem;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .header-left h2 { font-size: 18px; }
+  .header-left p { font-size: 11px; }
+
+  .header-right {
+    gap: 8px;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .streak-badge { font-size: 12px; padding: 5px 10px; }
+  .logout-btn { font-size: 12px; padding: 7px 14px; }
+
+  .dashboard-content {
+    padding: 0 12px;
+    margin: 16px auto;
+  }
+
+  .stats-row {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+
+  .stat-card { padding: 1rem; gap: 10px; }
+  .stat-icon { font-size: 22px; }
+  .stat-info h3 { font-size: 22px; }
+
+  .date-banner {
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px 14px;
+  }
+
+  .date-banner .date-main { font-size: 16px; }
+  .date-banner .quote { text-align: left; max-width: 100%; }
+
+  .form-row { grid-template-columns: 1fr; }
+
+  .search-filter-row { flex-direction: column; }
+  .filter-select { width: 100%; }
+
+  .task-item {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .task-actions {
+    margin-left: 0;
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .card { padding: 1.2rem; border-radius: 16px; }
+  .card-title { font-size: 14px; }
+
+  .form-buttons { flex-direction: column; }
+  .submit-btn, .cancel-btn { width: 100%; text-align: center; }
+
+  .doodle { font-size: 28px !important; }
+}
+
+@media (max-width: 480px) {
+  .stats-row { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .stat-card { padding: 0.8rem; }
+  .stat-info h3 { font-size: 18px; }
+  .progress-section { padding: 1rem; }
+  .role-badge { display: none; }
+}
+
+/* ===== RESPONSIVE LOGIN/REGISTER ===== */
+@media (max-width: 480px) {
+  .login-card, .register-card {
+    width: 100% !important;
+    margin: 0 16px;
+    padding: 1.8rem 1.4rem;
+    border-radius: 16px;
+  }
+
+  .login-container, .register-container {
+    align-items: flex-start;
+    padding-top: 40px;
+  }
+
+  .login-logo h1, .register-logo h1 { font-size: 26px; }
+  .login-title, .register-title { font-size: 20px; }
+}

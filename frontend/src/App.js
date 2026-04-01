@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import ForgotPassword from './pages/ForgotPassword';
 
 const PrivateRoute = ({ children }) => {
   const token = localStorage.getItem('token');
@@ -16,9 +17,8 @@ function App() {
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/dashboard" element={
-          <PrivateRoute><Dashboard /></PrivateRoute>
-        } />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
       </Routes>
     </BrowserRouter>
   );

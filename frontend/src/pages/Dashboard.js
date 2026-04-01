@@ -100,7 +100,7 @@ export default function Dashboard() {
   const completedCount = tasks.filter(t => t.status === 'done').length;
   const progressPercent = tasks.length > 0 ? Math.round((completedCount / tasks.length) * 100) : 0;
   const overdueCount = tasks.filter(t => isOverdue(t.dueDate) && t.status !== 'done').length;
-  const streak = Math.floor(Math.random() * 7) + 1;
+  const streak = user?.streak || 1;
 
   const today = new Date();
   const dateStr = today.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
